@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.busan.api.model.service.BusanService;
@@ -26,7 +27,8 @@ public class BusanController {
 	private final BusanService service;
 	
 	@GetMapping("/busan")
-	public ResponseEntity<String> getBusanFood(int page){
+	public ResponseEntity<String> getBusanFood(@RequestParam(name="page") int page){
+		// RequestParam 에노테이션 다 달아주기 *********************
 		
 		String response = service.getBusan(page);
 		
@@ -35,7 +37,7 @@ public class BusanController {
 	
 	@GetMapping("busan/{pk}")
 	public ResponseEntity<String> getBusanDetail(@PathVariable(name="pk") int pk){
-		
+		//System.out.println(pk);
 		String response = service.getBusanDetail(pk);
 		
 		return ResponseEntity.ok(response);
