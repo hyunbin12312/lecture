@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1절에서의 namespace 
+<mapper namespace="memberMapper">
+ -->
+<mapper namespace="com.kh.secom.member.model.mapper.MemberMapper">
+
+	<select id="findByUserId" 
+			parameterType="String" 
+			resultType="Member">
+		SELECT
+			USER_NO userNo,
+			USER_ID userId,
+			USER_PWD userPwd,
+			ROLE
+		  FROM
+		  	TB_MEMBER
+		
+	</select>
+	
+	
+	
+	
+	
+	
+
+</mapper>

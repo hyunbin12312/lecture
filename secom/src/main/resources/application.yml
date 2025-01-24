@@ -13,6 +13,8 @@ server:
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: NULL
+  mapper-locations: Classpath:mapper/*.xml
 
 logging:
   level:
