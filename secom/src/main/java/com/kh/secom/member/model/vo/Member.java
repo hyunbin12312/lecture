@@ -1,4 +1,4 @@
-package com.kh.busan.api.model.vo;
+package com.kh.secom.member.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,13 @@ import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
 @Builder
 @ToString
-public class CommentDTO {
-	private Long foodNo;
-	private String writer;
-	private String content;
+@Getter
+@Setter
+public class Member {
+	private Long userNo;
+	private String userId;
+	private String userPwd;
+	private String role;
 }

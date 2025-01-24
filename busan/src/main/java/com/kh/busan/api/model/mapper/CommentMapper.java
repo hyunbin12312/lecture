@@ -11,8 +11,9 @@ import com.kh.busan.api.model.vo.CommentDTO;
 public interface CommentMapper {
 	
 	@Insert("INSERT INTO TB_FOOD_REPLY VALUES(#{writer}, #{content}, #{foodNo})")
-	void save(CommentDTO commnet);
+	void save(CommentDTO comment);
+
+	List<CommentDTO> getComments(Long foodNo);
 	
-	List<CommentDTO> getCommnets(Long foodNo);
 	
 }
