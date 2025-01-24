@@ -62,9 +62,11 @@ public class BusanServiceImpl implements BusanService {
 
 	@Override
 	public void save(CommentDTO comment) {
-		
-		mapper.save(comment);
-		
+		if(comment.getWriter().equals("") || comment.getContent().equals("")) {
+			System.out.println("예외가 발생햇씁니다");
+		} else {
+			mapper.save(comment);
+		}
 	}
 
 	@Override
