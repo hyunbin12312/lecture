@@ -49,6 +49,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		mapper.save(member);
 		log.info("회원가입 성공");
+		//
 	}
 	
 	
