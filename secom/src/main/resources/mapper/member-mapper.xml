@@ -9,7 +9,7 @@
 
 	<select id="findByUserId" 
 			parameterType="String" 
-			resultType="Member">
+			resultType="com.kh.secom.member.model.vo.Member">
 		SELECT
 			USER_NO userNo,
 			USER_ID userId,
@@ -17,7 +17,8 @@
 			ROLE
 		  FROM
 		  	TB_MEMBER
-		
+		 WHERE
+		 	USER_ID = #{userId}
 	</select>
 	
 	

@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
 		// 빈 문자열인지 유효성검사
 		if("".equals(requestMember.getUserId()) || 
 		   "".equals(requestMember.getUserPwd())) {
-			log.info("빈 문자열은 안됨");
+			//log.info("빈 문자열은 안됨");
 			throw new InvalidParameterException("유효하지 않은 값입니다.");
 		}
 		
@@ -48,7 +48,8 @@ public class MemberServiceImpl implements MemberService {
 							  .build();
 		
 		mapper.save(member);
-		
+		log.info("회원가입 성공");
+		//
 	}
 	
 	
