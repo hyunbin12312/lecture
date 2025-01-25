@@ -3,8 +3,8 @@ spring:
     name: secom
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:xe
-    username: SPRING
-    password: SPRING
+    username: BOOT
+    password: BOOT
     driver-class-name: oracle.jdbc.driver.OracleDriver
 
 server:
