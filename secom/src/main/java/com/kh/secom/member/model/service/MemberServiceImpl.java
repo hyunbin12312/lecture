@@ -1,5 +1,6 @@
 package com.kh.secom.member.model.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kh.secom.exception.DuplicateUserException;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberMapper mapper;
+	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public void save(MemberDTO requestMember) {
@@ -34,7 +36,18 @@ public class MemberServiceImpl implements MemberService {
 			throw new DuplicateUserException("이미 존재하는 아이디입니다.");
 		}
 		
-		mapper.save(requestMember);
+		
+		// 비밀번호가 평문이라 그냥 들어가면 안됨
+		// + ROLE == USER라고 저장할 예정
+		// passwordEncoder 가 필요함
+		
+		Member member = Member.builder()
+							  .userId(requestMember.getUserId())
+							  .userPwd(passwordEncoder.encode(requestMember.getUserPwd()))
+							  .role("ROLE_USER")
+							  .build();
+		
+		mapper.save(member);
 		
 	}
 	

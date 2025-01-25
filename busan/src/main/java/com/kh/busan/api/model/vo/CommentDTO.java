@@ -2,8 +2,6 @@ package com.kh.busan.api.model.vo;
 
 import java.io.Serializable;
 
-import org.springframework.validation.annotation.Validated;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
