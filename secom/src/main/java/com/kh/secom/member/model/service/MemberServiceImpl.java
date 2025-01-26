@@ -19,7 +19,7 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberMapper mapper;
 
 	@Override
-	public void save(MemberDTO requestMember) {
+	public void save(MemberDTO requestMember) { //일반 사용자용 가입 메서드
 		
 		// 빈 문자열인지 유효성검사
 		if("".equals(requestMember.getUserId()) || 
@@ -33,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
 		if(searched != null) {
 			throw new DuplicateUserException("이미 존재하는 아이디입니다.");
 		}
+		
 		
 		mapper.save(requestMember);
 		
