@@ -49,6 +49,8 @@ public class MemberController {
 		 * 
 		 */
 		
+		authService.login(requestMember);
+		
 		// 로그인에 성공 했을 때
 		// AccessToken
 		// RefreshToken 반환
