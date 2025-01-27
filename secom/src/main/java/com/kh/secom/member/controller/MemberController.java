@@ -2,16 +2,16 @@ package com.kh.secom.member.controller;
 
 import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.secom.auth.service.AuthenticationService;
 import com.kh.secom.member.model.service.MemberService;
+import com.kh.secom.member.model.vo.ChangePasswordDTO;
 import com.kh.secom.member.model.vo.LoginResponse;
 import com.kh.secom.member.model.vo.MemberDTO;
 
@@ -73,6 +73,21 @@ public class MemberController {
 		LoginResponse response = LoginResponse.builder().username(requestMember.getUserId()).tokens(tokens).build();
 		
 		return ResponseEntity.ok(response);
+	}
+	
+	
+	// 비밀번호 변경 기능 구현
+	// 기존 비밀번호 / 바꾸고싶은 비밀번호 를 입력받을것
+	// 수정요청은 Put과 Fetch 매핑이 있음
+	@PutMapping
+	public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO changeEntity){
+		
+		log.info("{}", changeEntity);
+		
+		// 1월 24일자 비밀번호변경 12분부터 보면됨
+		
+		
+		return null;
 	}
 
 }
