@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.secom.member.model.vo.Member;
+import com.kh.secom.member.model.vo.MemberDTO;
 
 @Mapper
 public interface MemberMapper {
@@ -12,6 +13,8 @@ public interface MemberMapper {
 
 	@Insert("INSERT INTO TB_MEMBER VALUES(SEQ_MNO.NEXTVAL, #{userId}, #{userPwd}, #{role})")
 	void save(Member member);
+
+	void save(MemberDTO requestMember);
 
 
 }
