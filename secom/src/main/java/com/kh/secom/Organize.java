@@ -26,6 +26,30 @@ public class Organize {
 	// Login 기능과 Token 발행을 분리
 	// token 패키지 만들고 기능 분리 후 메서드 작성
 	
+	// 정리
+	/*
+	 * 사용자에게서 id와 pwd가 들어오면 Filter를 거침, 
+	 * 여기서 여러가지 필터를 거쳐야하지만 몇가지는 끄기위해 disable로 필터를 꺼놨음
+	 * 
+	 * RequestHandler(Controller)가 요청을 받아줘야함. requestDTo를 만들어놔서 Validation을 사용해 유효성 검사를 진행함
+	 * -> 입력받은값이 잘못됐다면 예외발생. GlobalException으로 가서 만들어놓은 예외처리 로직을 돌림
+	 * -> Json형태의 ResponseEntity가 사용자에게 돌아감
+	 * 
+	 * -> 입력받은 값이 유효성검사에 통과했다면 Service(AuthenticationService)로 보냄, 여기서 인증을 진행함
+	 * 1. 아이디가 DB에 존재하는가
+	 * 2. 비밀번호가 DB에 저장되어있는 암호화 된 비밀번호와 같은가
+	 * 
+	 * 이 과정을 AuthenticationManager가 진행해줌
+	 * UsernamepasswordAuthenticationToken(id, pwd) 객체를 생성해서
+	 * AuthenticationManager가 갖고있는 authenticate 메서드를 호출해 보내줌
+	 * -> AuthenticationManager.authenticate(UsernamepasswordAuthenticationToken(Id, Pwd);
+	 * 
+	 * 
+	 * Admin ID AccessToken
+	 * "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTczNzk0ODUzNywiZXhwIjoxNzM4MDM0OTM3fQ.CwBQQYJZzs431rXqYgudhDyvejQCEiIhqZpoTxma5h7_tQNq-SRvAqhA2Ubg8EIi2DjLXCaV3nBBC0uqiCpprw"
+	 * 
+	 */
+	
 	
 	
 	
