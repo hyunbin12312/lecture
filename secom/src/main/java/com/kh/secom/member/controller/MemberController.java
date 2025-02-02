@@ -3,6 +3,7 @@ package com.kh.secom.member.controller;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import com.kh.secom.member.model.service.MemberService;
 import com.kh.secom.member.model.vo.ChangePasswordDTO;
 import com.kh.secom.member.model.vo.LoginResponse;
 import com.kh.secom.member.model.vo.MemberDTO;
+import com.kh.secom.token.model.service.TokenService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +29,9 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final AuthenticationService authService;
-
+	private final TokenService tokenService;
+	
+	
 	// 새롭게 데이터를 만들어내는 요청(INSERT) == POST
 	@PostMapping // 받을때도 body에 있는 값을 받겠다 적어줌.
 	public ResponseEntity<String> save(@Valid @RequestBody MemberDTO requestMember) {
@@ -78,16 +82,33 @@ public class MemberController {
 	
 	// 비밀번호 변경 기능 구현
 	// 기존 비밀번호 / 바꾸고싶은 비밀번호 를 입력받을것
-	// 수정요청은 Put과 Fetch 매핑이 있음
+	// 수정(Update)요청은 Put과 Fetch 매핑이 있음
 	@PutMapping
 	public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO changeEntity){
-		
-		log.info("{}", changeEntity);
-		
-		// 1월 24일자 비밀번호변경 12분부터 보면됨
-		
-		
-		return null;
+		//log.info("{}", changeEntity);
+		memberService.changePassword(changeEntity);
+
+		return ResponseEntity.ok("업데이트에 성공했습니다.");
 	}
 
+	// 회원 탈퇴 기능
+	@DeleteMapping
+	public ResponseEntity<String> deleteByPassword(@RequestBody Map<String, String> password){
+		
+		memberService.deleteByPassword(password);
+		
+		return ResponseEntity.ok("회원삭제에 성공하였습니다.");
+	}
+	
+	// Refresh 토큰 검증해서 새로운 토큰 발급하기
+	@PostMapping("refresh")
+	public ResponseEntity<Map> refresh(@RequestBody Map<String, String> tokens){
+		log.info("???");
+		String refreshToken = tokens.get("refreshToken");
+		
+		Map<String, String> newTokens = tokenService.refreshTokens(refreshToken);
+
+		return ResponseEntity.ok(newTokens);
+	}
+	
 }

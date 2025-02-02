@@ -12,6 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.kh.secom.auth.util.JwtFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfigure {
+	
+	private final JwtFilter filter;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -56,6 +61,8 @@ public class SecurityConfigure {
 					requests.requestMatchers(HttpMethod.PUT, "/members").authenticated(); // 인증을 해야만 사용 가능함.
 					// 예시
 					requests.requestMatchers("/admin/**").hasRole("ADMIN");
+					requests.requestMatchers(HttpMethod.DELETE, "/members").authenticated();
+					requests.requestMatchers(HttpMethod.POST, "/members/**").authenticated();
 				})
 				/*
 				 *sessionManagement : 세션 관리에 대한 설정을 지정할 수 있음
@@ -63,6 +70,7 @@ public class SecurityConfigure {
 				 */
 				.sessionManagement(sessionManagement -> 
 								   sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class) // filter를 Username... 앞에서 사용하겠다.
 				.build();
 
 	}

@@ -50,7 +50,18 @@ public class Organize {
 	 * 
 	 */
 	
-	
+	/*
+	 * 명확한 책임의 분리
+	 * 
+	 * 인증, 인가 과정을 Spring Security에게 전부 넘김
+	 * 
+	 * Filter를 사용해서 클라이언트의 요청과 dispatcher Servlet 사이의 Filter들의 Chain을 이용해서 검증과정을 만듬
+	 * 
+	 * 직접만든 JwtTokenFilter 라는걸 사용해서 우리가 발급한 정상적인 토큰인가, 잘못된 토큰인가를 검증해
+	 * 
+	 * 정상적인 토큰이라면 권한을 주고, 잘못된 토큰이라면 예외를 발생시켜 필터에서 거르게 만듬.
+	 * 
+	 */
 	
 	
 }
