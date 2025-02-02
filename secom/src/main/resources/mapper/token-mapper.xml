@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1절에서의 namespace 
+<mapper namespace="memberMapper">
+ -->
+<mapper namespace="com.kh.secom.token.model.mapper.TokenMapper">
+
+	<delete id="deleteExpiredRefreshToken">
+		DELETE
+		  FROM
+		  		TB_REFRESH_TOKEN
+		 WHERE
+		 		USER_NO = #{userNo}
+		   AND
+		   		EXPIRED_AT <![CDATA[ < ]]> #{currentTime}
+	</delete>
+
+</mapper>

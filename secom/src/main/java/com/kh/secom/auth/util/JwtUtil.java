@@ -8,6 +8,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -52,9 +53,9 @@ public class JwtUtil {
 	
 	public String getAccessToken(String username) {
 		return Jwts.builder().subject(username) // 토큰 만들 때 구분할 항목, 예민한 정보는 담으면 안된다.
-		
 				.issuedAt(new Date()) // 발급일
 				.expiration(buildExpirationDate(ACCESS_TOKEN_EXPIRED)) // 만료일
+				//.expiration(new Date()) // 만료일
 				.signWith(key) // SecretKey 타입으로 만든 key 의 값 // 비밀키로 만든 서명
 				.compact();
 	}
@@ -63,5 +64,14 @@ public class JwtUtil {
 		return Jwts.builder().subject(username).issuedAt(new Date())
 				.expiration(buildExpirationDate(REFRESH_TOKEN_EXPIRED)).signWith(key).compact();
 	}
+	
+	public Claims parseJwt(String token) {
+		return Jwts.parser()
+				   .verifyWith(key)
+				   .build()
+				   .parseSignedClaims(token)
+				   .getPayload();
+	}
+	
 
 }

@@ -1,11 +1,10 @@
 package com.kh.secom.exception;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,6 +14,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+	
+	@ExceptionHandler(MissmatchPasswordException.class)
+	public ResponseEntity<?> handlerMissmatchPassword(MissmatchPasswordException e){
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
+	
+	@ExceptionHandler(AccessTokenExpiredException.class)
+	public ResponseEntity<?> handlerExpiredToken(AccessTokenExpiredException e){
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	}
+	
+	@ExceptionHandler(JwtTokenException.class)
+	public ResponseEntity<?> handlerInvalidToken(JwtTokenException e){
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	}
 
 	@ExceptionHandler(InvalidParameterException.class)
 	public ResponseEntity<?> handleInvalidParameter(InvalidParameterException e) {
@@ -50,5 +64,7 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(errors);
 
 	}
+	
+
 
 }
