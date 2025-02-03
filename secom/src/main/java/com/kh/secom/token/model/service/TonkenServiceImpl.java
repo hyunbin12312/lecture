@@ -48,9 +48,6 @@ public class TonkenServiceImpl implements TokenService {
 		params.put("userNo", userNo);
 		params.put("currentTime", System.currentTimeMillis());
 
-		log.info("userNo: {}", userNo);
-		log.info("currentTime: {}", System.currentTimeMillis());
-		
 		mapper.deleteExpiredRefreshToken(params);
 	}
 

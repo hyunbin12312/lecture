@@ -55,7 +55,7 @@ public class SecurityConfigure {
 				// @EnableMethodSecurity 를 추가해 사용할 수 있는 method가 인자값으로 들어감
 				.authorizeHttpRequests(requests -> {
 					// permitAll 은 뭐가 돌아오든, 권한이 있던 없던 다 받아주라는 의미
-					requests.requestMatchers("/members", "/members/login").permitAll();
+					requests.requestMatchers("/members", "/members/login", "/uploads/**").permitAll();
 					// Put 요청으로 들어오는 /members 는 hasRole을 이용해서 DB의 ROLE 컬럼에 USER라는 값이 있어야 가능하게
 					//requests.requestMatchers(HttpMethod.PUT, "/members").hasRole("USER"); // ROLE_USER 값이 있어야함
 					requests.requestMatchers(HttpMethod.PUT, "/members").authenticated(); // 인증을 해야만 사용 가능함.
@@ -63,6 +63,11 @@ public class SecurityConfigure {
 					requests.requestMatchers("/admin/**").hasRole("ADMIN");
 					requests.requestMatchers(HttpMethod.DELETE, "/members").authenticated();
 					requests.requestMatchers(HttpMethod.POST, "/members/**").authenticated();
+					requests.requestMatchers(HttpMethod.POST, "/boards").authenticated();
+					requests.requestMatchers(HttpMethod.GET, "/boards/**", "/comments/**").permitAll();
+					requests.requestMatchers(HttpMethod.PUT, "/boards/**").authenticated();
+					requests.requestMatchers(HttpMethod.DELETE, "/boards/**").authenticated();
+					requests.requestMatchers(HttpMethod.POST, "/comments").authenticated();
 				})
 				/*
 				 *sessionManagement : 세션 관리에 대한 설정을 지정할 수 있음
