@@ -19,12 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtUtil {
 
 	// H7oIaBujRo6fA/a0wdk09iY6STECQZbemMj8bcs5xBMzd0IYxzT+hNQd+fgXvsyz3qHF3DIwuYXUE9m7w5tkDw==
-
+	// helFW4EUOeoVUpijDo3859T8JkLNlaiy
 	// application.yml 혹은 application.properties 파일에 정의된 속성의 값들을
 	// @Value 애노테이션으로 값을 갖다쓸수있음
 
+	// 얘한테 값을 담아온 후 init 메서드에서 SecretKey에 담는다.
 	@Value("${jwt.secret}")
 	private String secretKey;
+	
 	// javax.crypto.SecretKey 타입의 필드로 JWT서명에 사용할 수 있다.
 	private SecretKey key;
 
@@ -37,6 +39,7 @@ public class JwtUtil {
 	public void init() { // initialize의 약자, 초기화할때 사용할 메서드
 
 		// secretKey키가 생성되자마자 init메서드를 불러 key객체를 만들수있게 하는 애노테이션이 @PostConstruct
+		
 		byte[] keyArr = Base64.getDecoder().decode(secretKey);
 		this.key = Keys.hmacShaKeyFor(keyArr); // SecretKey 타입의 객체를 반환해줌
 
