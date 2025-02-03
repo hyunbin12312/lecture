@@ -25,7 +25,6 @@ public class TonkenServiceImpl implements TokenService {
 
 	@Override
 	public Map<String, String> generateToken(String username, Long userNo) {
-
 		// 1. AccessToken 만들기
 		// 2. RefreshToken 만들기
 		Map<String, String> tokens = createTokens(username);
