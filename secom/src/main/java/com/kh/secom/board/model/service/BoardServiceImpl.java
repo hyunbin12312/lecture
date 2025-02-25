@@ -6,11 +6,13 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.metrics.S3ServiceMetric;
 import com.kh.secom.auth.model.vo.CustomUserDetails;
 import com.kh.secom.auth.service.AuthenticationService;
 import com.kh.secom.board.model.dto.BoardDTO;
 import com.kh.secom.board.model.mapper.BoardMapper;
 import com.kh.secom.exception.InvalidParameterException;
+import com.kh.secom.storage.model.service.StorageService;
 import com.kh.secom.token.model.service.FileService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,22 +23,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardServiceImpl implements BoardService {
 	
-	private final BoardMapper mapper;
 	private final FileService fileService;
+	private final StorageService s3Service;
+	private final BoardMapper mapper;
 	private final AuthenticationService authService;
 	
 	
 	@Override
 	public void save(BoardDTO board, MultipartFile file) {
 
-		log.info("게시글정보 : {} \n파일 정보: {}", board, file);
+		//log.info("게시글정보 : {} \n파일 정보: {}", board, file);
 		
 		CustomUserDetails user = authService.getAuthenticatedUser();
 		authService.validWriter(board.getBoardWriter(), user.getUsername());
 		
 		if(file != null && !file.isEmpty()) {
+			
+			// 버전 1번
 			// 파일 저장하고, 저장 위치 세팅하기
-			String filePath = fileService.store(file);
+			//String filePath = fileService.store(file);
+			
+			String filePath = s3Service.upload(file);
+			log.info("파일저장경로 : {}", filePath);
+			
 			board.setBoardFileUrl(filePath);
 		} else {
 			board.setBoardFileUrl(null);

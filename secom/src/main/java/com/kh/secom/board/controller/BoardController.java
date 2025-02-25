@@ -51,7 +51,7 @@ public class BoardController {
 	@GetMapping("/{id}")
 	public ResponseEntity<BoardDTO> findById(
 			@PathVariable(name = "id") @Min(value = 1, message = "0보다 작은 수 입니다.") Long boardNo) {
-		log.info("보고싶은 게시글번호 : {}", boardNo);
+		//log.info("보고싶은 게시글번호 : {}", boardNo);
 		return ResponseEntity.ok(service.findById(boardNo));
 	}
 
