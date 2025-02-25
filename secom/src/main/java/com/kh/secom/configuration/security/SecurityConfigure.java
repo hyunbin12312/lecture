@@ -1,9 +1,12 @@
 package com.kh.secom.configuration.security;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.kh.secom.auth.util.JwtFilter;
 
@@ -25,6 +31,21 @@ public class SecurityConfigure {
 	
 	private final JwtFilter filter;
 
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		// java.util.Arrays
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+		configuration.setAllowCredentials(true);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+		
+		// 이 메서드에 사용되는 import 목록들 기억하기.
+	}
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		// method명이 객체이름이 되어 등록되기 때문에 절때로 같은이름의 Bean 메소드가 존재하면 안된다.
@@ -41,6 +62,7 @@ public class SecurityConfigure {
 		 * @Override public void customize(FormLoginConfigurer<HttpSecurity> t) {
 		 * t.disable(); } }).httpBasic(null).csrf(null).cors(null).build();
 		 */
+		
 
 		// AbstractHttpConfigurer 이 부모클래스로서 모든 객체와 메소드를 갖고있음
 		return httpSecurity.formLogin(AbstractHttpConfigurer::disable) // form 로그인 방식은 사용하지 않겠다.
@@ -50,7 +72,7 @@ public class SecurityConfigure {
 				 * <form> <input type="hidden" value="" /> </form> 형식으로 값을 몰래 받을 때 html에서 조작이
 				 * 가능한 부분을 막겠는가? => 이제 React를 사용하기때문에 없어도됨
 				 */
-				.cors(AbstractHttpConfigurer::disable) // 이건 따로 필터를 만들어줘야함.
+				.cors(Customizer.withDefaults()) // 이건 따로 필터를 만들어줘야함.
 				// 뒷단은 나중에 작업하기로 해놔서 일단 꺼놓고 React와 붙일때 사용
 				// @EnableMethodSecurity 를 추가해 사용할 수 있는 method가 인자값으로 들어감
 				.authorizeHttpRequests(requests -> {
