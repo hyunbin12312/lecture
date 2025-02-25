@@ -11,6 +11,8 @@ spring:
   web:
     resources:
       static-locations: file:uploads/
+  profiles:
+    include: private
 
 server:
   port: 80
